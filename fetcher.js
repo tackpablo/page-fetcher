@@ -5,13 +5,19 @@ const times = process.argv.slice(2);
 const site = times[0];
 const localPath = times[1];
 
-if (!site || !localPath) return;
-
 request(site, (error, response, body) => {
   let siteResponse = body;
-  // console.log("error:", error); // Print the error if one occurred
-  // console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
-  // console.log("body:", body); // Print the HTML for the Google homepage.
+
+  // if URL is invalid
+  if (siteResponse === undefined)
+    return console.log(`URL is invalid. ${error}`);
+
+  // // if file path is invalid
+  // fs.access(localPath, fs.R_OK, (err) => {
+  //   if (err) {
+  //     return console.log(`File path is invalid. ${err}`);
+  //   }
+  // });
 
   fs.writeFile(localPath, siteResponse, (err) => {
     if (err) {
